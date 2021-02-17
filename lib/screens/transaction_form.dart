@@ -8,6 +8,7 @@ import 'package:alura_crashlytics/models/contact.dart';
 import 'package:alura_crashlytics/models/transaction.dart';
 import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 
 class TransactionForm extends StatefulWidget {
   final Contact contact;
@@ -136,12 +137,33 @@ class _TransactionFormState extends State<TransactionForm> {
     });
     final Transaction transaction =
     await _webClient.save(transactionCreated, password).catchError((e) {
-      print('Erro aqui: $e');
+
+      // Adicionar na próxima aula
+      // FirebaseCrashlytics.instance.setCustomKey('http_code', e.statusCode);
+      // FirebaseCrashlytics.instance.setCustomKey ('http_body', transactionCreated.toString());
+      // FirebaseCrashlytics.instance.setCustomKey ('http_password', password);
+      FirebaseCrashlytics.instance.recordError(e.message, null);
+
       _showFailureMessage(context, message: e.message);
+
     }, test: (e) => e is HttpException).catchError((e) {
+
+      // Adicionar na próxima aula
+      // FirebaseCrashlytics.instance.setCustomKey('http_code', e.statusCode);
+      // FirebaseCrashlytics.instance.setCustomKey ('http_body', transactionCreated.toString());
+      // FirebaseCrashlytics.instance.setCustomKey ('http_password', password);
+      FirebaseCrashlytics.instance.recordError(e.message, null);
+
       _showFailureMessage(context,
           message: 'timeout submitting the transaction');
     }, test: (e) => e is TimeoutException).catchError((e) {
+
+      // Adicionar na próxima aula
+      // FirebaseCrashlytics.instance.setCustomKey('http_code', e.statusCode);
+      // FirebaseCrashlytics.instance.setCustomKey ('http_body', transactionCreated.toString());
+      // FirebaseCrashlytics.instance.setCustomKey ('http_password', password);
+      FirebaseCrashlytics.instance.recordError(e.message, null);
+
       _showFailureMessage(context);
     }).whenComplete(() {
       setState(() {
