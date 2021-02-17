@@ -1,4 +1,4 @@
-package br.com.alura.crashlytics.alura_crashlytics
+package br.com.alura.bytebank
 
 import io.flutter.embedding.android.FlutterActivity
 
