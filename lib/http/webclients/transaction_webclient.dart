@@ -44,7 +44,7 @@ class TransactionWebClient {
     400: 'there was an error submitting transaction',
     401: 'authentication failed',
     404: 'route not found',
-    409: 'transaction already exists'
+    409: 'transaction already exists' // se tirar o uuid força esse
   };
 }
 

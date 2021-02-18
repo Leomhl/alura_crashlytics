@@ -7,8 +7,8 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
 
-  FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
   FirebaseCrashlytics.instance.setUserIdentifier('alura123');
+  FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
 
   runApp(BytebankApp());
 }
