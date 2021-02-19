@@ -85,6 +85,7 @@ class _TransactionFormState extends State<TransactionForm> {
                         value,
                         widget.contact,
                       );
+
                       showDialog(
                           context: context,
                           builder: (contextDialog) {

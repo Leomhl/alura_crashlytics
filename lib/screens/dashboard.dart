@@ -1,4 +1,5 @@
 import 'package:alura_crashlytics/screens/contacts_list.dart';
+import 'package:alura_crashlytics/screens/profile_form.dart';
 import 'package:alura_crashlytics/screens/transactions_list.dart';
 import 'package:flutter/material.dart';
 
@@ -32,6 +33,11 @@ class Dashboard extends StatelessWidget {
                   Icons.description,
                   onClick: () => _showTransactionsList(context),
                 ),
+                _FeatureItem(
+                  'Profile',
+                  Icons.person,
+                  onClick: () => _showProfileScreen(context),
+                ),
               ],
             ),
           ),
@@ -48,10 +54,18 @@ class Dashboard extends StatelessWidget {
     );
   }
 
-  _showTransactionsList(BuildContext context) {
+  void _showTransactionsList(BuildContext context) {
     Navigator.of(context).push(
       MaterialPageRoute(
         builder: (context) => TransactionsList(),
+      ),
+    );
+  }
+
+  void _showProfileScreen(BuildContext context) {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => ProfileForm(),
       ),
     );
   }
