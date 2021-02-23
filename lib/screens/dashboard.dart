@@ -6,7 +6,10 @@ import 'package:flutter/material.dart';
 class Dashboard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final _scaffoldKey = GlobalKey<ScaffoldState>();
+
     return Scaffold(
+      key: _scaffoldKey,
       appBar: AppBar(
         title: Text('Dashboard'),
       ),

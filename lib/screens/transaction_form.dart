@@ -9,6 +9,9 @@ import 'package:alura_crashlytics/models/transaction.dart';
 import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import 'package:giffy_dialog/giffy_dialog.dart';
+import 'package:toast/toast.dart';
+
 
 class TransactionForm extends StatefulWidget {
   final Contact contact;
@@ -24,10 +27,13 @@ class _TransactionFormState extends State<TransactionForm> {
   final TransactionWebClient _webClient = TransactionWebClient();
   final String transactionId = Uuid().v4();
   bool _sending = false;
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
+      key: _scaffoldKey,
       appBar: AppBar(
         title: Text('New transaction'),
       ),
@@ -156,6 +162,7 @@ class _TransactionFormState extends State<TransactionForm> {
 
       _showFailureMessage(context,
           message: 'timeout submitting the transaction');
+
     }, test: (e) => e is TimeoutException).catchError((e) {
 
       if (FirebaseCrashlytics.instance.isCrashlyticsCollectionEnabled) {
@@ -173,14 +180,45 @@ class _TransactionFormState extends State<TransactionForm> {
     return transaction;
   }
 
-  void _showFailureMessage(
-    BuildContext context, {
-    String message = 'Unknown error',
-  }) {
+  void _showFailureMessage(BuildContext context, {String message = 'Unknown error'}) {
+
+    // Primeira opção
+    // final snackBar = SnackBar(content: Text(message));
+    // _scaffoldKey.currentState.showSnackBar(snackBar);
+
+    // Segunda opção
+    // showToast(message, gravity: Toast.CENTER);
+
+    //Terceira opção (copiar da documentação na aula para simplificar)
     showDialog(
         context: context,
-        builder: (contextDialog) {
-          return FailureDialog(message);
-        });
+        builder: (_) => NetworkGiffyDialog(
+          image: Image.asset(
+            'images/error.gif',
+            fit: BoxFit.cover,
+          ),
+          entryAnimation: EntryAnimation.TOP_LEFT,
+          title: Text(
+            'Ops',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+                fontSize: 22.0, fontWeight: FontWeight.w600),
+          ),
+          description: Text(
+            message,
+            textAlign: TextAlign.center,
+          ),
+          onOkButtonPressed: () {},
+        ));
+
+    // showDialog(
+    //     context: context,
+    //     builder: (contextDialog) {
+    //       return FailureDialog(message);
+    //     });
+  }
+
+  void showToast(String msg, {int duration = 5, int gravity}) {
+    Toast.show(msg, context, duration: duration, gravity: gravity);
   }
 }
